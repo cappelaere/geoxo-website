@@ -7,5 +7,6 @@ CloudFlare [website](https://geoxo-website.pages.dev/)
 
 The website is created locally
 Repository is updated on Github.
-A build is then generated on the CloudFlare side.
+A build is then generated automatically on the CloudFlare side.
+New site becomes available within minutes.
 

@@ -6,8 +6,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'GeoXO Demo Site',
-  tagline: 'GeoXo Web3.0 is cool',
+  title: 'GeoXO GeoPortal',
+  tagline: 'GeoXO Web3.0 is cool',
   url: 'https://geoxo.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -67,11 +67,11 @@ const config = {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'GeoXo Demo',
+            label: 'GeoXO Demo',
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/cappelaere/geoxo-website',
             label: 'GitHub',
             position: 'right',
           },
@@ -120,7 +120,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `${new Date().getFullYear()} Pat Cappelaee, IBM Consulting. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

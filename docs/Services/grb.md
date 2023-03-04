@@ -1,0 +1,11 @@
+# GRB Service
+
+NOAA GOES Rebroadcast
+
+The GOES-R Series satellite’s scientific instruments sense the environment and distribute data to the onboard computer for processing and distribution to the X-Band antenna for transmission to Earth as a digital data stream. The ground system software at Wallops Command and Data Acquisition Station (WCDAS) processes the Level 0 data and creates Level 1b products. For example, the measurements from the ABI are converted to units of radiance and calibrated, navigated, and remapped to a fixed grid. The antenna at WCDAS transmits the products to the GOES-R Series satellite for relay through the satellite’s GOES Rebroadcast (GRB) transponder and L-Band antenna to GRB receive stations, including GRB receive stations at the NOAA Satellite Operations Facility (NSOF). 
+
+The GRB provides the primary GOES-16 and GOES-17 relay of full resolution, calibrated, near-real-time direct broadcast Level 1b data from each instrument and Level 2 data from the Geostationary Lightning Mapper (GLM). The GRB is a significant increase in capability from the GOES VARiable (GVAR) service on GOES 13, 14, and 15. The GRB contains the ABI, GLM, space environment, and solar data that drive the data flow in the NOAA space and Earth environment research and operational frameworks.
+
+To receive the GRB signal, a user installs a receive station consisting of an antenna, Low Noise Amplifiers, RF/Intermediate Frequency (IF) downconverter, Digital Video Broadcasting-S2 (DVB-S2) capable receiver and GRB-compatible demodulator, and processing software. The GRB link data rate is 31 Mbps and between 1.5 TB and 2 TB of data are transmitted during a 24-hour period.
+
+The GRB data stream includes the ABI Level 1b products. In Mode 4, or Continuous full disk mode, the ABI produces a full disk image every 5 minutes. In Mode 3, or Flex Mode, the ABI produces a full disk every 15 minutes, a CONUS image (resolution 3000 km by 5000 km) every 5 minutes, and two mesoscale domains (resolution 1000 km by 1000 km) every minute or one domain every 30 seconds if it is set to that scanning rate. All 16 Bands are available. A new mode, Mode 6, is being tested and if approved by NESDIS and NWS then it would provide a full disk image every 10 minutes, CONUS image every five minutes, and images from both mesoscale domains every minute.
