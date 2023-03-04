@@ -2,9 +2,9 @@
 sidebar_position: 1
 ---
 
-# Demo Intro
+# GeoPortal Customization
 
-Let's discover **GeoXO in less than 5 minutes**.
+Let's discover how to customize the GeoPortal for **GeoXO in less than 5 minutes**.
 
 ## Getting Started
 
