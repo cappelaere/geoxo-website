@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const FeatureList = [
   {
@@ -35,7 +36,7 @@ const FeatureList = [
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({ Svg, title, description }) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
@@ -50,6 +51,7 @@ function Feature({Svg, title, description}) {
 }
 
 export default function HomepageFeatures() {
+
   return (
     <section className={styles.features}>
       <div className="container">
@@ -60,5 +62,6 @@ export default function HomepageFeatures() {
         </div>
       </div>
     </section>
-  );
+  )
+
 }

@@ -1,3 +1,6 @@
 # Demo Architecture
 
-Diagrams are coming...
+Architecture Diagram
+
+
+![Architecture](architecture.png)
