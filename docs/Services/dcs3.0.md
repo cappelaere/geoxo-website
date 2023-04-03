@@ -10,12 +10,37 @@ and follow the Quick Start guide.
 GeoCloud is providing the same interface as [LRGS](https://opendcs-env.readthedocs.io/en/latest/lrgs-userguide.html) (DCP data Service).
 For more information, refer to the [NOAA GOES DCS page](https://dcs1.noaa.gov/)
 
-Please configure your system to connect to our published IP address with the correct username/password.
+Please configure your system to connect to our published IP address: 54.227.193.198
 
 ## Request Username/Password
-To connect to our geoCloud DCS stream, you will need a username and password.
-Please request this information from our [administrator](mailto:admin@geoxo.io).  Note: this email will be enabled soon.
+Current demo does not require a username/password.  Connections are not autneticated.
+Eventually, to connect to our geoCloud DCS stream, you would need a username and password.
+Please request this information from our [administrator](mailto:admin@geoxo.io).
 
-GeoCloud DCS IP address is: 54.227.193.198
+## OpenDCS Client installation notes
+Installation requires: Java, ant, python3
+```
+$ ant jar
+$ ant opendcs
+```
+This will create a jar installation file in $DCSTOOL_HOME/stage/opendcs-ot-x.x.x.jar
+
+```
+java -jar opendcs-ot-x.x.x.jar
+```
+Choose all defaults
+In installtion directory, edit lrgs.conf and ddsrecv.conf with the GeoCloud host ip (54.227.193.198)
+
+export DCSTOOL_HOME=[opendcs path]
+and add it to your path.
+
+in the bin directory, run opendcs_user_init
+and start 
+```
+launcher_start 
+```
+
+select lrgs status and connect to provide IP Address
+
 
 
