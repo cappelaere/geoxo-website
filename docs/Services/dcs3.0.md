@@ -30,8 +30,9 @@ java -jar opendcs-ot-x.x.x.jar
 ```
 Choose all defaults
 In installtion directory, edit lrgs.conf and ddsrecv.conf with the GeoCloud host ip (54.227.193.198)
-
+```
 export DCSTOOL_HOME=[opendcs path]
+```
 and add it to your path.
 
 in the bin directory, run opendcs_user_init
