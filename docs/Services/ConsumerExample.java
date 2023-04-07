@@ -5,6 +5,7 @@ import org.apache.kafka.clients.consumer.*;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import java.io.*;
 import java.nio.file.*;
@@ -39,8 +40,8 @@ public class ConsumerExample {
         private String CarrierStart; 
         private String CarrierStop; 
         private int Baud;
-        private int GoodPhasePct;
-        private int FreqOffset;
+        private float GoodPhasePct;
+        private float FreqOffset;
         private float SignalStrength;
         private float PhaseNoise;
         private String LocalRecvTime; 
@@ -86,7 +87,7 @@ public class ConsumerExample {
         return cfg;
     }
 
-    public static StoreMessage( final String value, MsgArchive archive) {
+    public static void StoreMessage( final String value, MsgArchive archive, ExtBlockXmlParser xmlParser ) throws ParseException, IOException, ProtocolError, InterruptedException {
         Gson gson = new Gson();
 
         DCP object = gson.fromJson(value, DCP.class);
@@ -115,15 +116,17 @@ public class ConsumerExample {
         // System.out.println("XML Parsed");
 
         LrgsInputInterface src = null;
-        archive.archiveMsg(msg, src);
-    }
+        try {
+            archive.archiveMsg(msg, src);
+        } catch( java.lang.NoClassDefFoundError ex) {}   
+     }
 
     public static void main(final String[] args) throws Exception {
         if (args.length != 1) {
             System.out.println("Please provide the topic as a command line argument");
             System.exit(1);
         }
-        final String ConfigFile = 'kafka.properties'
+        final String ConfigFile = "kafka.properties"
         final String topic = args[0];
    	    MsgArchive archive = new MsgArchive("./archive");
         archive.init();
@@ -142,21 +145,57 @@ public class ConsumerExample {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         try (final Consumer<String, String> consumer = new KafkaConsumer<>(props)) {
-            consumer.subscribe(Arrays.asList(topic));
+            if( topic.contains("*")) {
+                Pattern pattern = Pattern.compile(topic);
+                consumer.subscribe(pattern);
+            } else {
+                List<String> list;
+                if( topic.contains(",")) {
+                    list = Arrays.asList(topic.split(","));
+                } else {
+                    list = Arrays.asList(topic);
+                }
+
+                System.out.println("Subscribing to " + list);
+                consumer.subscribe(list);                }
+            }
+
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                 for (ConsumerRecord<String, String> record : records) {
+                    String t = record.topic();
                     String key = record.key();
                     String value = record.value();
                     System.out.println(
-                            String.format("Consumed event from topic %s: key = %-10s value = %s", topic, key, value));
-                    StoreMessage(value, archive);
+                            String.format("Consumed event from topic %s: key = %-10s value = %s", t, key, value));
+                    StoreMessage(value, archive, xmlParser);
                 }
             }
         }       
         catch(InterruptedException e) {
+            System.out.println("InterruptedException "+e);
             System.out.println("Closing archive...")
             archive.shutdown();
         }
+        catch(ProtocolError e) {
+            System.out.println("ProtocolError "+e);
+            System.out.println("Closing archive...");
+            archive.shutdown();
+        } 
+        catch(ParseException e) {
+            System.out.println("ParseException "+e);
+            System.out.println("Closing archive...");
+            archive.shutdown();
+        } 
+        catch(IOException e) {
+            System.out.println("IOException "+e);
+            System.out.println("Closing archive...");
+            archive.shutdown();
+        }
+        catch(org.apache.kafka.common.errors.InvalidTopicException e) {
+            System.out.println("InvalidTopicException "+e);
+            System.out.println("Closing archive...");
+            archive.shutdown();
+        } 
     }
 }
