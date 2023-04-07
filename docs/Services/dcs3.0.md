@@ -18,8 +18,11 @@ Eventually, to connect to our geoCloud DCS stream, you would need a username and
 Please request this information from our [administrator](mailto:admin@geoxo.io).
 
 ## OpenDCS Client installation notes
-Installation requires: Java, ant, python3
+Installation requires: Java 11, ant, python3.
+Documentation on how to use OpenDCS is available at https://opendcs-env.readthedocs.io/en/latest/index.html
+
 ```
+$ git clone https://github.com/opendcs/opendcs.git
 $ ant jar
 $ ant opendcs
 ```
