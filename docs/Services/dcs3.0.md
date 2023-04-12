@@ -19,7 +19,7 @@ Please request this information from our [administrator](mailto:admin@geoxo.io).
 
 ## OpenDCS Client installation notes
 Installation requires: Java 11, ant, python3.
-Documentation on how to use OpenDCS is available at https://opendcs-env.readthedocs.io/en/latest/index.html
+Documentation on how to use OpenDCS is available [here](https://opendcs-env.readthedocs.io/en/latest/index.html)
 
 ```
 $ git clone https://github.com/opendcs/opendcs.git
@@ -45,6 +45,8 @@ launcher_start
 ```
 
 select lrgs status and connect to provide IP Address
+## DCS Query Examples Using API
+See [Examples](/query)
 
 
 

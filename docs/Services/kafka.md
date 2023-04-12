@@ -70,5 +70,13 @@ BUILD SUCCESSFUL
 ```
 java -cp build/libs/kafka-java-getting-started-0.0.1.jar examples.ConsumerExample dcs.goes.NOAANOS
 ```
+Subscription with wildcards:
+```
+java -cp build/libs/kafka-java-getting-started-0.0.1.jar examples.ConsumerExample ^dcs.goes.*
+```
+Subscription to multiple topics:
+```
+java -cp build/libs/kafka-java-getting-started-0.0.1.jar examples.ConsumerExample dcs.goes.NOAANOS,dcs.goes.NOAAFS
+```
 ### OpenDCS Integration Notes
 The messages will be stored in the specified local archive folder.  This should aloow you to read and process the messages using OpenDCS

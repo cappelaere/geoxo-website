@@ -19,6 +19,11 @@ const config = {
   organizationName: 'NOAA', // Usually your GitHub org/user name.
   projectName: 'GeoCloud', // Usually your repo name.
 
+  scripts: [
+    'https://code.jquery.com/jquery-3.6.4.min.js',
+    '/js/geoxo.js'
+  ],
+
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
@@ -120,7 +125,7 @@ const config = {
             ],
           },
         ],
-        copyright: `${new Date().getFullYear()} Pat Cappelaee, IBM Consulting. Built with Docusaurus.`,
+        copyright: `${new Date().getFullYear()} Pat Cappelaere, IBM Consulting. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
