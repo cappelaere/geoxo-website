@@ -180,7 +180,7 @@ export default function Query() {
                 <div id='results'></div>
 
                 <br />
-                <a href='/react.js'>Code Snippet</a>
+                <a href='/src/pages/query.js'>Code Snippet</a>
 
             </div >
 
