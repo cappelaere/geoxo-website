@@ -23,9 +23,7 @@ export default function Query() {
             success: function (data, textStatus, request) {
                 $(document.body).css({ 'cursor': 'default' });
 
-                const json = JSON.stringify(data, null, '  ')
-                console.log(json);
-                let html = "<b>Results:</b><pre>" + json + "</pre>"
+                let html = FormatResults(data)
                 $('#results').html(html)
             }
         });
@@ -48,7 +46,7 @@ export default function Query() {
 
         const data = { query: query, limit: limit }
         console.log("search:" + JSON.stringify(data))
-        console.log(url)
+        // console.log(url)
         $('#results').html('')
         $(document.body).css({ 'cursor': 'wait' });
 
@@ -63,13 +61,87 @@ export default function Query() {
             crossDomain: true,
             success: function (data, textStatus, request) {
                 $(document.body).css({ 'cursor': 'default' });
-
-                const json = JSON.stringify(data, null, '  ')
-                console.log(json);
-                let html = "<b>Results:</b><pre>" + json + "</pre>"
+                let html = FormatResults(data)
                 $('#results').html(html)
+                console.log(html)
             }
         });
+    }
+
+    function FormatResults(json) {
+        let fmt = $('#format').val()
+        let res
+        switch (fmt) {
+            case 'json':
+                const str = JSON.stringify(json, null, '  ')
+                console.log(str);
+                res = `<b>Results:</b><pre>${encodeHTMLEntities(str)}</pre>`
+                return res
+            case 'html':
+                res = JsonToHtml(json)
+                return res
+            case 'csv':
+                res = JsonToCsv(json)
+                return res
+            default:
+                res = 'Invalid format'
+                return res
+        }
+    }
+
+    function JsonToHtml(json) {
+        let html = '<b>Results:</b><br><table>'
+        var el = json[0]
+        var keys = Object.keys(el)
+        html += "<tr>"
+        for (let k of keys) {
+            html += `<th>${k}</th>`
+        }
+        html += "</tr>"
+
+        for (let j of json) {
+            html += "<tr>"
+            for (let k of keys) {
+                html += `<td>${encodeHTMLEntities(j[k].toString())}</td>`
+            }
+            html += "</tr>"
+        }
+
+        html += "</table>"
+        return html
+    }
+
+    function JsonToCsv(json) {
+        let html = '<b>Results:</b><br>'
+        var el = json[0]
+        var keys = Object.keys(el)
+        html += "<tr>"
+        for (let k of keys) {
+            html += `${k},`
+        }
+        html += "-<br/>"
+
+        for (let j of json) {
+            html += "<tr>"
+            for (let k of keys) {
+                html += `${encodeHTMLEntities(j[k].toString())},`
+            }
+            html += "-<br/>"
+        }
+
+        return html
+    }
+
+    // cid:bafkreiadanxf5w62ihtghcs5ramy3pjix5yfvndov7q2443wkozcwsmcs4
+
+    function encodeHTMLEntities(rawStr) {
+        return rawStr.replace(/[\u00A0-\u9999<>\&]/g, ((i) => `&#${i.charCodeAt(0)};`));
+    }
+
+    function htmlEncode(input) {
+        const textArea = document.createElement("textarea");
+        textArea.innerText = input;
+        return textArea.innerHTML.split("<br>").join("\n");
     }
 
     function onBtnGet() {
@@ -98,7 +170,9 @@ export default function Query() {
                 console.log(json);
                 $(document.body).css({ 'cursor': 'default' });
 
-                let html = "<b>Results:</b><br/><pre>" + json + "</pre>"
+                // let html = "<b>Results:</b><br/><pre>" + json + "</pre>"
+                let html = FormatResults([data])
+
                 html += "<br/>"
                 html += "<a href='" + url + "' download='dcs.json'>Download</a><br/>"
 
@@ -115,6 +189,13 @@ export default function Query() {
                 <br />
                 <h1>DCS Query Examples</h1>
                 <br />
+                <label>Preferred Output Format:</label><br />
+                <select id='format' name='format'>
+                    <option value='html'>html</option>
+                    <option value='json'>json</option>
+                    <option value='csv'>csv</option>
+                </select>
+                <hr />
                 <h2>SQL Query Data Example &nbsp;
                 </h2>
                 <div id="sqlquerydiv">
