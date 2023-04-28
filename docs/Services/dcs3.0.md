@@ -47,7 +47,6 @@ launcher_start
 select lrgs status and connect to provide IP Address
 ## DCS Query Examples Using API
 See [Browser Query Examples](/query)<br/>
-See [Browser React.js](react.js) to exercise the API from the browser
 
 
 
