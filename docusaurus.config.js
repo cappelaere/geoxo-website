@@ -20,8 +20,7 @@ const config = {
   projectName: 'GeoCloud', // Usually your repo name.
 
   scripts: [
-    'https://code.jquery.com/jquery-3.6.4.min.js',
-    '/js/geoxo.js'
+    'https://code.jquery.com/jquery-3.6.4.min.js'
   ],
 
   // Even if you don't use internalization, you can use this field to set useful

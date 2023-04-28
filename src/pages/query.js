@@ -3,6 +3,7 @@ import Layout from '@theme/Layout';
 
 export default function Query() {
     var GEOXO_API_URL_AUTH = "https://g5mhhyt2c4.execute-api.us-east-1.amazonaws.com/v1"
+    var reformatFileUrl
 
     function onBtnClick() {
         var url = GEOXO_API_URL_AUTH + "/dcs/sql"
@@ -148,6 +149,7 @@ export default function Query() {
         var url = GEOXO_API_URL_AUTH + "/dcs/"
         var g = $('#g').val()
         var cls = $('#storageClass').val()
+        const fmt = $('#format').val()
 
         console.log("get:" + g + ' class:' + cls)
         var url = GEOXO_API_URL_AUTH + "/dcs/" + g + '?class=' + cls
@@ -165,20 +167,25 @@ export default function Query() {
             cors: true,
             crossDomain: true,
             success: function (data, textStatus, request) {
-                const url = data.url
+                reformatFileUrl = data.url
                 const json = JSON.stringify(data, null, '  ')
                 console.log(json);
                 $(document.body).css({ 'cursor': 'default' });
 
                 // let html = "<b>Results:</b><br/><pre>" + json + "</pre>"
                 let html = FormatResults([data])
-
+                const path = `/reformat?cid=${data.cid}&fmt=${fmt}`
                 html += "<br/>"
-                html += "<a href='" + url + "' download='dcs.json'>Download</a><br/>"
+                html += "<a href='" + reformatFileUrl + "' download='dcs.json'>xDownload</a><br/>"
+                // html += "<a href='" + path + "'>Reformat File</a><br/>"
 
                 $('#results').html(html)
             }
         });
+    }
+
+    function Reformat() {
+        console.log(`Reformat`, reformatFileUrl)
     }
 
     return (
