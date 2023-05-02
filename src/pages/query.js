@@ -79,6 +79,7 @@ export default function Query() {
                 res = `<b>Results:</b><pre>${encodeHTMLEntities(str)}</pre>`
                 return res
             case 'html':
+                console.log(json)
                 res = JsonToHtml(json)
                 return res
             case 'csv':
@@ -92,7 +93,17 @@ export default function Query() {
 
     function JsonToHtml(json) {
         let html = '<b>Results:</b><br><table>'
-        var el = json[0]
+        let el
+        if (json.results) {
+            //console.log('got results...')
+            //console.log(json.results)
+
+            el = json.results[0]
+            json = json.results
+        } else {
+            //console.log('got array')
+            el = json[0]
+        }
         var keys = Object.keys(el)
         html += "<tr>"
         for (let k of keys) {
