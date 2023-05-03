@@ -259,13 +259,14 @@ export default function Query() {
                     <br />Examples:
                     <pre>
                         find three goes records with agency = 'NOANOS' since yesterday<br />
+                        find 5 goes records with agency = 'NOANOS' between '2023-04-02' and '2023-05-03'<br />
                         retrieve ten goes records from last two days<br />
                         find 3 goes records with platformId=CE44B7BA
                     </pre>
                 </div >
                 <br />
 
-                <input type="text" id="q" name="q" size="80" maxLength='80' required defaultValue='list last two goes records' />
+                <input type="text" id="q" name="q" size="80" maxLength='150' required defaultValue='list last two goes records' />
                 <button onClick={onBtnClick} id='queryButton' name='queryButton'>Query</button>
 
                 <br />
