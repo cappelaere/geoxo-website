@@ -22,12 +22,23 @@ export default function Query() {
             data: JSON.stringify(q),
             crossDomain: true,
             success: function (data, textStatus, request) {
+                console.log('success onBtnClick', data, textStatus)
                 $(document.body).css({ 'cursor': 'default' });
-
-                let html = FormatResults(data)
+                if (data.results.error) {
+                    let html = "<pre>" + JSON.stringify(data, null, '\t') + "</pre>"
+                    $('#results').html(html)
+                } else {
+                    let html = FormatResults(data)
+                    $('#results').html(html)
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(`textStatus ${textStatus}`)
+                console.log(`errorThrown ${errorThrown}`)
+                let html = errorThrown;
                 $('#results').html(html)
             }
-        });
+        })
     }
 
     function onBtnList() {
@@ -94,27 +105,40 @@ export default function Query() {
     function JsonToHtml(json) {
         let html = '<b>Results:</b><br><table>'
         let el
+        if (json.sql) {
+            html += "<b>SQL Query:</b>"
+            html += encodeHTMLEntities(json.sql) + "<br/>"
+        }
         if (json.results) {
-            //console.log('got results...')
-            //console.log(json.results)
-
             el = json.results[0]
             json = json.results
         } else {
-            //console.log('got array')
             el = json[0]
+        }
+        if (el == null) {
+            html += "NO RESULTS"
+            return html
         }
         var keys = Object.keys(el)
         html += "<tr>"
         for (let k of keys) {
-            html += `<th>${k}</th>`
+            if (k !== 'BinaryMsg') {
+                html += `<th>${k}</th>`
+            }
         }
         html += "</tr>"
-
+        console.log(json)
         for (let j of json) {
             html += "<tr>"
             for (let k of keys) {
-                html += `<td>${encodeHTMLEntities(j[k].toString())}</td>`
+                if (k !== 'BinaryMsg') {
+                    let v = j[k]
+                    if (v) {
+                        html += `<td>${encodeHTMLEntities(j[k].toString())}</td>`
+                    } else {
+                        html += `<td>null</td>`
+                    }
+                }
             }
             html += "</tr>"
         }
@@ -125,18 +149,32 @@ export default function Query() {
 
     function JsonToCsv(json) {
         let html = '<b>Results:</b><br>'
-        var el = json[0]
+        let el
+        if (json.results) {
+            el = json.results[0]
+            json = json.results
+        } else {
+            el = json[0]
+        }
         var keys = Object.keys(el)
         html += "<tr>"
         for (let k of keys) {
-            html += `${k},`
+            if (k !== 'BinaryMsg') {
+                html += `${k},`
+            }
         }
         html += "-<br/>"
 
         for (let j of json) {
             html += "<tr>"
             for (let k of keys) {
-                html += `${encodeHTMLEntities(j[k].toString())},`
+                if (k !== 'BinaryMsg') {
+                    if (j[k]) {
+                        html += `${encodeHTMLEntities(j[k].toString())},`
+                    } else {
+                        html += 'null,'
+                    }
+                }
             }
             html += "-<br/>"
         }
@@ -220,7 +258,7 @@ export default function Query() {
                     The query allows a user to make a request using natural language.  OpenAI ChatGPT will attempt to generate a complex SQL query.  The query will then be sent to ElasticSearch.  Both query and results are returned to the user.
                     <br />Examples:
                     <pre>
-                        find three goes records with agency = NOANOS since yesterday<br />
+                        find three goes records with agency = 'NOANOS' since yesterday<br />
                         retrieve ten goes records from last two days<br />
                         find 3 goes records with platformId=CE44B7BA
                     </pre>
